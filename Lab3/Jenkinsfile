@@ -28,6 +28,7 @@ pipeline {
             } 
             post {
                 always {
+                    sh 'ls -la /var/jenkins_home/workspace/Lab3Pipeline/test-reports'
                     junit 'test-reports/.xml'
                 }   
                 success {
