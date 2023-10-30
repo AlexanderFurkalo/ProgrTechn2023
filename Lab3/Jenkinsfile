@@ -40,10 +40,12 @@ pipeline {
         }
         stage ('Docker') {
              steps {
-                script {
-                    def dockerImage = docker.build("haktoid/lab3-jenkins-final:${BUILD_NUMBER}")
-                    dockerImage.push()
-                    sh 'docker rmi -f haktoid/lab3-jenkins-final:${BUILD_NUMBER}'
+                script {               
+                    sh "docker build -t app.py -f Dockerfile ."  
+                    withCredentials([string(credentialsId: 'DockJenk', variable: 'DOCKERHUB_CREDENTIALS_PSW')]) {
+                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u haktoid --password-stdin'
+                    }                                  
+                    sh "docker push app.py"
                 }
             }
         }
