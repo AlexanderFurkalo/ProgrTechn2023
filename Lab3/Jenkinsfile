@@ -41,9 +41,9 @@ pipeline {
         stage ('Docker') {
              steps {
                 script {
-                    def dockerImage = docker.build("haktoid/Lab3-Jenkins-Final:${BUILD_NUMBER}")
+                    def dockerImage = docker.build("haktoid/lab3-jenkins-final:${BUILD_NUMBER}")
                     dockerImage.push()
-                    sh 'docker rmi -f haktoid/Lab3-Jenkins-Final:${BUILD_NUMBER}'
+                    sh 'docker rmi -f haktoid/lab3-jenkins-final:${BUILD_NUMBER}'
                 }
             }
         }
