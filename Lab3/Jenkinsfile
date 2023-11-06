@@ -42,7 +42,6 @@ pipeline {
             }     
         }
         stage ('Docker') {
-             agent any
              steps {
                 script {               
                     sh "docker build -t haktoid/app.py -f Lab3/Dockerfile ."  
