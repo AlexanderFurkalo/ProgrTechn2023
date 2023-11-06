@@ -43,12 +43,10 @@ pipeline {
             }     
         }
         stage ('Docker') {
-             steps {
-                script {               
+             steps {               
                     sh "docker build -t ${DOCKER_IMAGE} -f Lab3/Dockerfile ."  
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_PSW --password-stdin'                               
                     sh "docker push ${DOCKER_IMAGE}"
-                }
             }
         }
     }
