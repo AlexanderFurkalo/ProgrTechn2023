@@ -44,8 +44,8 @@ pipeline {
                 script {               
                     sh "docker build -t haktoid/app.py -f Lab3/Dockerfile ."  
                     withCredentials([
-                        string(credentialsId: 'DockJenk', variable: 'DOCKERHUB_CREDENTIALS_PSW'),
-                        string(credentialsId: 'DockJenk', variable: 'DOCKERHUB_CREDENTIALS_USR')
+                        string(credentialsId: 'DockerhubTok', variable: 'DOCKERHUB_CREDENTIALS_PSW'),
+                        string(credentialsId: 'DockerhubTok', variable: 'DOCKERHUB_CREDENTIALS_USR')
                         ]) {
                         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                     }                                  
