@@ -1,14 +1,10 @@
 pipeline {
     options { timestamps() }
 
-    agent any
-    environment {
-        DOCKER_IMAGE = 'haktoid/app.py'
-        DOCKERHUB_CREDENTIALS = credentials('DockJenk')
-    }
-
+    agent none
     stages {
         stage('Check scm') {
+            agent any
             steps {
                 checkout scm
             }
@@ -43,10 +39,18 @@ pipeline {
             }     
         }
         stage ('Docker') {
-             steps {               
-                    sh "docker build -t ${DOCKER_IMAGE} -f Lab3/Dockerfile ."  
-                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login $DOCKERHUB_CREDENTIALS -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                               
-                    sh "docker push ${DOCKER_IMAGE}"
+             agent any
+             steps {
+                script {               
+                    sh "docker build -t haktoid/app.py -f Lab3/Dockerfile ."  
+                    withCredentials([
+                        string(credentialsId: 'DockJenk', variable: 'DOCKERHUB_CREDENTIALS_PSW')
+                        string(credentialsId: 'DockJenk', variable: 'DOCKERHUB_CREDENTIALS_USR')
+                        ]) {
+                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    }                                  
+                    sh "docker push haktoid/app.py"
+                }
             }
         }
     }
