@@ -32,6 +32,7 @@ pipeline {
             post {
                 always {
                     junit 'test-reports/*.xml'
+                    echo "Test-reports-here"
                 }   
                 success {
                     echo "Application testing successfully completed "
